@@ -6,7 +6,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 const Topbar = () => {
   return (
-    <div style={{fontFamily : 'Josefin Sans'}} className="font-['Josefin Sans'] w-[100%] h-[50px] flex items-center sticky top-0">
+    <div style={{fontFamily : 'Josefin Sans'}} className="font-['Josefin Sans'] w-[100%] h-[50px] flex items-center sticky top-0 bg-white z-10">
       <div className="flex-[3]  flex items-center justify-center">
         <AiFillFacebook className="text-[#444] mr-3 text-[20px] cursor-pointer" />
         <BsPinterest className="text-[#444] mr-3 text-[20px] cursor-pointer" />
