@@ -6,7 +6,7 @@ const FormField = ({ props }) => {
       style={{
         height: "calc(100vh - 50px)",
       }}
-      className="flex relative justify-center items-center flex-col bg-gradient-to-tr from-amber-400 to-slate-400"
+      className="flex relative justify-center items-center flex-col bg-gradient-to-tr from-slate-100 to-slate-400"
     >
       <span className="text-[50px]">{props}</span>
       <form className="mt-5 flex flex-col">
