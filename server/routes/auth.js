@@ -4,20 +4,46 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  const { username, email, password } = req.body;
-  const salt = await bcrypt.genSalt(10);
-  const hashPassword = await bcrypt.hash(password, salt);
-  if (!username || !email || !password) {
-    res.status(404).json({ message: "Fields cannot be empty" });
-    return;
-  }
   try {
+    const { username, email } = req.body;
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    if (!username || !email || !req.body.password) {
+      res.status(404).json({ message: "Fields cannot be empty" });
+      return;
+    }
     const newUser = new User({ username, email, password: hashPassword });
     const user = await newUser.save();
-    res.status(201).json(user);
+    const { password, ...doc } = await user._doc;
+    res.status(201).json(doc);
   } catch (error) {
     res.status(500).json({ message: error });
   }
 });
 
+router.post("/login", async (req, res) => {
+  try {
+    const { username } = req.body;
+    if (!username || !req.body.password) {
+      res.status(404).json({ message: "Fields cannot be empty" });
+      return;
+    }
+    const userExists = await User.findOne({ username });
+    console.log(userExists);
+    if (!userExists) {
+      res.status(404).json({ message: "Invalid credentials" });
+      return;
+    }
+    const validated = await bcrypt.compare(req.body.password, userExists.password);
+    if (!validated) {
+      res.status(404).json({ message: "Invalid credentials" });
+      return;
+    }
+
+    const { password, ...data } = userExists._doc;
+    res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
 module.exports = router;
