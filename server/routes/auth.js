@@ -29,7 +29,6 @@ router.post("/login", async (req, res) => {
       return;
     }
     const userExists = await User.findOne({ username });
-    console.log(userExists);
     if (!userExists) {
       res.status(404).json({ message: "Invalid credentials" });
       return;
