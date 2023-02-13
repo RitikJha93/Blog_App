@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
     res.status(500).json({ message: error });
   }
 });
-
+ 
 router.post("/login", async (req, res) => {
   try {
     const { username } = req.body;

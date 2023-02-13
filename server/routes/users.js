@@ -1,7 +1,6 @@
 const express = require("express");
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
-const { findByIdAndDelete } = require("../models/User");
 const router = express.Router();
 
 //UPDATE
@@ -36,6 +35,18 @@ router.delete('/:id',async(req,res)=>{
         res.status(200).json({message:"User deleted successfully"})
     } catch (error) {
         res.status(500).json({message: error});
+    }
+})
+
+//GET USER
+router.get('/:id',async(req,res)=>{
+    try {
+        const user = await User.findById(req.params.id)
+        const {password,...doc} = user._doc
+        res.status(200).json(doc)
+    } catch (error) {
+        res.status(500).json({message: error});
+        console.log(error);
     }
 })
 module.exports = router;
