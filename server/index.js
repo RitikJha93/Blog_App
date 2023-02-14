@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+var cors = require('cors')
 dotenv.config();
 const connectToMongo = require("./db/db");
 const authRoute = require("./routes/auth")
@@ -10,6 +11,14 @@ const storage = require('./utils/multer')
 const multer = require('multer')
 const app = express();
 app.use(express.json());
+
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+app.use(cors(corsOptions))
+
+
 connectToMongo();
 
 const upload = multer({ storage: storage });

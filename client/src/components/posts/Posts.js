@@ -1,15 +1,12 @@
-import Post from "../post/Post"
+import Post from "../post/Post";
 
-const Posts = () => {
+const Posts = ({ posts }) => {
   return (
     <div className="flex-[9] flex flex-wrap m-5">
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
-      <Post />
+      {posts.map((post) => {
+        return <Post post={post} />;
+      })}
     </div>
-  )
-}
-export default Posts
+  );
+};
+export default Posts;
