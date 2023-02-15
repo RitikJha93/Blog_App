@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 const Post = ({ post }) => {
+  const pf = `${process.env.REACT_APP_BACKEND_URI}/images/`
   return (
     <div className="w-[375px] mt-0 mx-6 mb-8">
       {post.photo && (
         <img
           className="w-[100%] h-[280px] object-cover rounded-lg"
-          src="https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src={pf + post.photo}
           alt=""
         />
       )}

@@ -19,7 +19,7 @@ const FormField = ({ props }) => {
       try {
         setLoading(true);
         const { data } = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URI}/auth/${link}`,
+          `${process.env.REACT_APP_BACKEND_URI}/api/auth/${link}`,
           {
             username,
             email,
@@ -38,7 +38,7 @@ const FormField = ({ props }) => {
         setLoading(true);
         dispatch({ type: "LOGIN_START" });
         const { data } = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URI}/auth/${link}`,
+          `${process.env.REACT_APP_BACKEND_URI}/api/auth/${link}`,
           {
             username,
             password,

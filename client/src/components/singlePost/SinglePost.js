@@ -10,7 +10,7 @@ const SinglePost = () => {
   const [post, setPost] = useState({});
   const fetchSinglePost = async () => {
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BACKEND_URI}/post/${path}`
+      `${process.env.REACT_APP_BACKEND_URI}/api/post/${path}`
     );
     setPost(data);
   };
@@ -19,12 +19,13 @@ const SinglePost = () => {
     fetchSinglePost();
   }, [path]);
 
+  const pf = `${process.env.REACT_APP_BACKEND_URI}/images`
   return (
     <div className="flex-[9]">
       <div className="p-5 pr-0">
         <img
           className="w-[100%] h-[300px] rounded-md object-cover"
-          src={post?.photo}
+          src={`${pf}/${post.photo}`}
           alt=""
         />
         <h1

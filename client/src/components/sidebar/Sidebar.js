@@ -9,7 +9,7 @@ const Sidebar = () => {
   const [cats, setCats] = useState([]);
 
   const fetchCats = async () => {
-    const { data } = await axios.get("/categories");
+    const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URI}/api/categories`);
     console.log(data);
     setCats(data);
   };

@@ -9,9 +9,10 @@ const postRoute = require("./routes/post")
 const categoriesRoute = require("./routes/categories")
 const storage = require('./utils/multer')
 const multer = require('multer')
+const path = require('path')
 const app = express();
 app.use(express.json());
-
+app.use('/images', express.static(path.join(__dirname,'/images')))
 var corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204

@@ -9,7 +9,7 @@ const Home = () => {
   const [posts, setPosts] = useState([])
   const {search} = useLocation()
   const fetch = async()=>{
-    const {data} = await axios.get(`${process.env.REACT_APP_BACKEND_URI}/post${search}`)
+    const {data} = await axios.get(`${process.env.REACT_APP_BACKEND_URI}/api/post${search}`)
     setPosts(data)
   }
   useEffect(() => {
