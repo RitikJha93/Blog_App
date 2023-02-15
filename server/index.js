@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 app.use('/images', express.static(path.join(__dirname,'/images')))
 var corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000','https://blogappclient.vercel.app'],
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 app.use(cors(corsOptions))
