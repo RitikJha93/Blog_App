@@ -1,6 +1,7 @@
 import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Context } from "../context/Context";
 
 const FormField = ({ props }) => {
   const [username, setUsername] = useState();
@@ -9,12 +10,14 @@ const FormField = ({ props }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, seterrorMessage] = useState("");
   const navigate = useNavigate();
+
+  const { user, isFetching, dispatch } = useContext(Context);
   const handleSubmit = async (link) => {
+    seterrorMessage("");
     console.log(link);
     if (link === "register") {
       try {
         setLoading(true);
-        seterrorMessage('')
         const { data } = await axios.post(
           `${process.env.REACT_APP_BACKEND_URI}/auth/${link}`,
           {
@@ -33,21 +36,27 @@ const FormField = ({ props }) => {
     } else {
       try {
         setLoading(true);
-        const { data } = await axios.post(`/auth/${link}`, {
-          username,
-          password,
-        });
-        console.log(data);
+        dispatch({ type: "LOGIN_START" });
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BACKEND_URI}/auth/${link}`,
+          {
+            username,
+            password,
+          }
+        );
+        dispatch({ type: "LOGIN_SUCCESS", payload: data });
         setLoading(false);
         navigate("/");
       } catch (error) {
         console.log(error);
+        dispatch({ type: "LOGIN_FAILURE" });
         seterrorMessage(error.response.data.message);
         setLoading(false);
       }
     }
   };
 
+  console.log(isFetching);
   return (
     <div
       style={{

@@ -3,9 +3,17 @@ import { BsPinterest, BsSearch } from "react-icons/bs";
 import { AiOutlineTwitter } from "react-icons/ai";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { AiOutlineSearch } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { Context } from "../../context/Context";
 
 const Topbar = () => {
+  const { user, dispatch } = useContext(Context);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/login");
+  };
   return (
     <div
       style={{ fontFamily: "Josefin Sans" }}
@@ -27,15 +35,32 @@ const Topbar = () => {
           <Link to={"/write"}>
             <li className="mr-5 text-lg font-[300] cursor-pointer">WRITE</li>
           </Link>
-          <li className="mr-5 text-lg font-[300] cursor-pointer">LOGOUT</li>
+          {user && (
+            <li
+              className="mr-5 text-lg font-[300] cursor-pointer"
+              onClick={handleLogout}
+            >
+              LOGOUT
+            </li>
+          )}
         </ul>
       </div>
       <div className="flex-[3] flex justify-center items-center">
-        <img
-          className="w-[40px] h-[40px] object-cover rounded-full"
-          src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600"
-          alt=""
-        />
+        {user ? (
+          <>
+            <img
+              className="w-[40px] h-[40px] object-cover rounded-full"
+              src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600"
+              alt=""
+            />
+          </>
+        ) : (
+          <Link to={"/login"}>
+            <li className="mr-5 text-lg font-[300] list-none cursor-pointer">
+              LOGIN
+            </li>
+          </Link>
+        )}
         <AiOutlineSearch className="cursor-pointer text-lg text-[#666] mr-4" />
       </div>
     </div>
