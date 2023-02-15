@@ -1,25 +1,51 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Context } from "../../context/Context";
 
 const SinglePost = () => {
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
+  const { user } = useContext(Context);
+
+  // const [, set] = useState(second)
+
+  const navigate = useNavigate();
+  const handleDelete = async () => {
+    try {
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_BACKEND_URI}/api/post/${post._id}`,{data:{username: user.username}});
+      console.log(data);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BACKEND_URI}/api/post/${post._id}`,{username: user.username,title,desc});
+      console.log(data);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const fetchSinglePost = async () => {
     const { data } = await axios.get(
       `${process.env.REACT_APP_BACKEND_URI}/api/post/${path}`
     );
     setPost(data);
   };
-  console.log(post);
   useEffect(() => {
     fetchSinglePost();
   }, [path]);
 
-  const pf = `${process.env.REACT_APP_BACKEND_URI}/images`
+  const pf = `${process.env.REACT_APP_BACKEND_URI}/images`;
   return (
     <div className="flex-[9]">
       <div className="p-5 pr-0">
@@ -33,10 +59,15 @@ const SinglePost = () => {
           className="text-center m-2 text-3xl font-bold"
         >
           {post.title}
-          <div className="float-right text-base flex items-center">
-            <FaEdit className="text-teal-600 text-xl mr-3 cursor-pointer" />
-            <MdDelete className="text-red-600 text-xl  cursor-pointer" />
-          </div>
+          {user.username === post.username && (
+            <div className="float-right text-base flex items-center">
+              <FaEdit className="text-teal-600 text-xl mr-3 cursor-pointer" />
+              <MdDelete
+                className="text-red-600 text-xl  cursor-pointer"
+                onClick={handleDelete}
+              />
+            </div>
+          )}
         </h1>
         <div
           style={{ fontFamily: "Varela" }}
