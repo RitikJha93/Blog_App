@@ -6,7 +6,7 @@ const Post = ({ post }) => {
       {post.photo && (
         <img
           className="w-[100%] h-[280px] object-cover rounded-lg"
-          src={pf + post.photo}
+          src={post.photo}
           alt=""
         />
       )}

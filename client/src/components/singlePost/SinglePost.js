@@ -58,7 +58,7 @@ const SinglePost = () => {
       <div className="p-5 pr-0">
         <img
           className="w-[100%] h-[300px] rounded-md object-cover"
-          src={`${pf}/${post.photo}`}
+          src={post.photo}
           alt=""
         />
         {updateMode ? (

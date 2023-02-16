@@ -47,13 +47,13 @@ const Topbar = () => {
       </div>
       <div className="flex-[3] flex justify-center items-center">
         {user ? (
-          <>
+          <Link to={'/settings'}>
             <img
               className="w-[40px] h-[40px] object-cover rounded-full"
               src={user?.profilePic}
               alt=""
             />
-          </>
+          </Link>
         ) : (
           <Link to={"/login"}>
             <li className="mr-5 text-lg font-[300] list-none cursor-pointer">

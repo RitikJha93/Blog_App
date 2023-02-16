@@ -1,6 +1,11 @@
 import Sidebar from "../components/sidebar/Sidebar";
 import {FaUserCircle} from 'react-icons/fa'
+import { useContext } from "react";
+import { Context } from "../context/Context";
+
 const Settings = () => {
+
+  const {user} = useContext(Context)
   return (
     <div className="flex">
       <div className="flex-[9] p-5">
@@ -17,7 +22,7 @@ const Settings = () => {
                 Profile Picture
             </label>
             <div className="flex items-center my-2">
-                <img className="w-[70px] h-[70px] object-cover rounded-lg" src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=600" alt="" />
+                <img className="w-[70px] h-[70px] object-cover rounded-lg" src={user.profilePic} alt="" />
                 <label htmlFor="fileInput">
                     <FaUserCircle className="w-[25px] h-[25px] object-cover ml-2 cursor-pointer"/>
                 </label>

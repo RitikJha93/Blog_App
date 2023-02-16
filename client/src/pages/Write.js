@@ -7,37 +7,50 @@ const Write = () => {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
+  const [img, setImg] = useState('')
   const navigate = useNavigate();
   const { user } = useContext(Context);
+
+  const convertbase64 = async (file) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+
+    fileReader.onload = () => {
+      setImg(fileReader.result)
+    };
+    fileReader.onerror = (error) => {
+      console.log(error);
+    };
+  };
+
+  const handleUpload = async (e) => {
+    setFile(e.target.files[0])
+    const file = e.target.files[0];
+    const base64 = await convertbase64(file);
+  };
   const handlePostSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const newPost = {
       username: user.username,
       title: title,
       desc: desc,
     };
-    if (file) {
-      const formData = new FormData();
-      const filename = Date.now() + file.name;
-      formData.append("name", filename);
-      formData.append("file", file);
-      newPost.photo = filename;
-
-      console.log(formData);
-      try {
-        const { data } = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URI}/api/upload`,
-          formData
-        );
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-      }
+    
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BACKEND_URI}/api/upload`,
+        { image: img }
+      );
+      console.log(data);
+      newPost.photo = data.url
+    } catch (error) {
+      console.log(error);
     }
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_BACKEND_URI}/api/post`,newPost
       );
+      console.log(data);
       navigate("/post/" + data._id);
     } catch (error) {
       console.log(error);
@@ -59,7 +72,7 @@ const Write = () => {
           <input
             type="file"
             id="fileInput"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={handleUpload}
             className="hidden "
           />
           <input
