@@ -10,7 +10,7 @@ const Settings = () => {
   const [file, setFile] = useState(null);
   const [img, setImg] = useState();
   const [success, setSuccess] = useState(false);
-  const { user } = useContext(Context);
+  const { user,dispatch } = useContext(Context);
 
   const convertbase64 = async (file) => {
     const fileReader = new FileReader();
@@ -29,6 +29,7 @@ const Settings = () => {
     const base64 = await convertbase64(file);
   };
   const handleSubmit = async (e) => {
+    dispatch({type:'UPDATE_START'})
     e.preventDefault();
     const updatedUser = {
       userId: user._id,
@@ -56,8 +57,11 @@ const Settings = () => {
       );
       console.log(data);
       setSuccess(true);
+      dispatch({type:'UPDATE_SUCCESS',payload:data})
     } catch (error) {
       console.log(error);
+      dispatch({type:'UPDATE_FAILURE'})
+
     }
   };
   return (
@@ -78,7 +82,7 @@ const Settings = () => {
           <div className="flex items-center my-2">
             <img
               className="w-[70px] h-[70px] object-cover rounded-lg"
-              src={user.profilePic}
+              src={file ? URL.createObjectURL(file) : user.profilePic}
               alt=""
             />
             <label htmlFor="fileInput">
